@@ -44,7 +44,6 @@ function addToBasket(product) {
     basket.push({ product: product, quantity: 1 });
   }
 
-
   localStorage.setItem("basket", JSON.stringify(basket));
 }
 
@@ -62,8 +61,9 @@ function renderBasket() {
     basketList.innerHTML = "<li>No products in basket.</li>";
     if (cartButtonsRow) cartButtonsRow.style.display = "none";
     return;
-    basket.forEach((basketItem) => {
-      const item = PRODUCTS[basketItem.product];
+  }
+  basket.forEach((basketItem) => {
+    const item = PRODUCTS[basketItem.product];
     if (item) {
       const li = document.createElement("li");
       li.innerHTML = `<span class='basket-emoji'>${item.emoji}</span> <span>${basketItem.quantity}x ${item.name}</span>`;
@@ -83,16 +83,17 @@ function renderBasketIndicator() {
     indicator.className = "basket-indicator";
     basketLink.appendChild(indicator);
   }
-    // Calculate total quantity across all items
-    let totalQuantity = 0;
-    if (Array.isArray(basket)) {
-      totalQuantity = basket.reduce((sum, item) => {
-        return sum + (item.quantity || 0);
-      }, 0);
-    }
-  
-    if (totalQuantity > 0) {
-      indicator.textContent = totalQuantity;
+
+  // Calculate total quantity across all items
+  let totalQuantity = 0;
+  if (Array.isArray(basket)) {
+    totalQuantity = basket.reduce((sum, item) => {
+      return sum + (item.quantity || 0);
+    }, 0);
+  }
+
+  if (totalQuantity > 0) {
+    indicator.textContent = totalQuantity;
     indicator.style.display = "flex";
   } else {
     indicator.style.display = "none";
